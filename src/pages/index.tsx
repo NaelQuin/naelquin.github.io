@@ -1,43 +1,36 @@
-import type {ReactNode} from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from 'react';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 
-import styles from './index.module.css';
+const ProjectList = [
+  {
+    title: 'Metabase Education Analytics',
+    description: 'Real-time data visualization of student performance.',
+    link: 'https://naelquin.github.io/education_dashboard_roadmap/',
+  },
+  {
+    title: 'Infrastructure Roadmap',
+    description: 'Documentation for the server and database setup.',
+    link: '/docs/roadmap/introduction', // Internal link
+  },
+];
 
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+export default function Home() {
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
+    <Layout title="Education Hub">
+      <main style={{padding: '2rem', maxWidth: '1200px', margin: '0 auto'}}>
+        <h1>My Education Projects</h1>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
+          {ProjectList.map((project, idx) => (
+            <div key={idx} style={{border: '1px solid #ddd', padding: '1rem', borderRadius: '8px'}}>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <Link className="button button--primary" to={project.link}>
+                View Project
+              </Link>
+            </div>
+          ))}
         </div>
-      </div>
-    </header>
-  );
-}
-
-export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
       </main>
     </Layout>
   );
