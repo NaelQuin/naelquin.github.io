@@ -8,6 +8,8 @@ import TabItem from '@theme/TabItem';
 
 # Instalação do Metabase
 
+A seguir se encontram o guia de instalação do Metabase.
+
 ## Requisitos
 
 | Requisito | Mínimo | Recomendado |
@@ -76,7 +78,7 @@ sudo systemctl start metabase
   <TabItem value="docker-standalone" label="Docker (standalone)">
 
 **Apenas para teste**:
-Esta opção usa a base de dados H2 interna do Metabase. **Não usar em produção** — os dados não persistem de forma fiável.
+Esta opção usa a base de dados H2 interna do Metabase. **Não usar em produção** - os dados não persistem de forma fiável.
 
 ```bash
 docker run -d \
@@ -91,7 +93,7 @@ docker run -d \
   <TabItem value="docker-compose" label="Docker Compose (recomendado)">
 
 **Produção**:
-Esta é a abordagem recomendada — Metabase com PostgreSQL dedicado, dados persistentes.
+Esta é a abordagem recomendada - Metabase com PostgreSQL dedicado, dados persistentes.
 
 ```yaml
 # docker-compose.yml

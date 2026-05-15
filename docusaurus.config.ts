@@ -6,8 +6,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
              title: 'Education Dashboard Roadmap',
-           tagline: 'Dinosaurs are cool',
-           favicon: 'img/favicon.ico',
+           tagline: 'Dashboard de indicadores educacionais - OIL Caparica-Trafaria',
+           //favicon: 'img/piageticon.ico',
+           favicon: 'img/insight.ico',
             future: { v4: true },
 
                url: 'https://naelquin.github.io',
@@ -33,8 +34,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/',
         },
         blog: {
           showReadingTime: true,
@@ -44,8 +44,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -60,27 +59,28 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/insight.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'PsyTech Lab',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'INSIGHT Logo',
+        src: 'img/logo.png',  
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Roadmap',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        //{to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
+          //href: 'https://github.com/facebook/docusaurus',
+          href: 'https://git.ipiaget.org/psytech/education-dashboard',
+          label: 'GitLab',
           position: 'right',
         },
       ],
@@ -92,7 +92,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Roadmap',
               to: '/docs/intro',
             },
           ],
@@ -101,17 +101,17 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'INSIGHT',
+              href: 'https://investigacao.ipiaget.org/',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Insituto Piaget',
+              href: 'https://ipiaget.org/',
             },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
+            // {
+            //   label: 'X',
+            //   href: 'https://x.com/docusaurus',
+            // },
           ],
         },
         {
@@ -122,13 +122,13 @@ const config: Config = {
               to: '/blog',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'GitLab',
+              href: 'https://git.ipiaget.org/psytech/',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} PsyTech - INSIGHT Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

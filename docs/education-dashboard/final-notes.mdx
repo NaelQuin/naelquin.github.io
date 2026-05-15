@@ -5,10 +5,10 @@ sidebar_position: 7
 # Notas Finais e Boas Práticas
 
 **Anonimato dos Dados**:
-Os dados contêm informação de 59 indivíduos. Garantir que a dashboard **não permita identificação individual** — usar apenas agregados e nunca expor IDs sem controlo de acesso.
+Os dados contêm informação de 59 indivíduos. Garantir que a dashboard **não permita identificação individual** - usar apenas agregados e nunca expor IDs sem controlo de acesso.
 
 **Boas Práticas**:
-- **Filtros:** Configurar filtros por bairro e situação profissional desde o início — são as variáveis mais analiticamente ricas neste dataset.
-- **Iteração:** Começar com 5–6 gráficos essenciais e ir adicionando com feedback da equipa — evitar dashboards sobrecarregadas.
-- **Metabase H2 vs. PostgreSQL:** Para produção, **nunca** usar a base de dados H2 interna do Metabase — migrar sempre para PostgreSQL ou MySQL.
+- **Filtros:** Configurar filtros por bairro e situação profissional desde o início - são as variáveis mais analiticamente ricas neste dataset.
+- **Iteração:** Começar com 5–6 gráficos essenciais e ir adicionando com feedback da equipa - evitar dashboards sobrecarregadas.
+- **Metabase H2 vs. PostgreSQL:** Para produção, **nunca** usar a base de dados H2 interna do Metabase - migrar sempre para PostgreSQL ou MySQL.
 - **Backups:** Configurar backups periódicos da base de dados de metadados do Metabase (`metabase` DB) e dos dados OIL (`oil_trafaria` DB).
