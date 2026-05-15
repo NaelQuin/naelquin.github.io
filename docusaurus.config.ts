@@ -8,7 +8,7 @@ const config: Config = {
    * ======================================================== */
              title: 'PsyTech Roadmaps',
            tagline: 'Dashboard to access project\'s roadmaps',
-           //favicon: 'img/faviconLight.ico',
+           //favicon: 'img/favicon.ico',
            favicon: 'img/faviconDark.ico',
             future: { v4: true },
 
@@ -70,19 +70,19 @@ const config: Config = {
       logo: {
         alt: 'INSIGHT Logo',
         src: 'img/insightHead.png',
-        srcDark: 'img/insightHeadWhite.png',  // Used in dark mode
+        srcDark: 'img/insightHeadWhite.png',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Roadmap',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'tutorialSidebar',
+        //   position: 'left',
+        //   label: 'Roadmap',
+        // },
         //{to: '/blog', label: 'Blog', position: 'left'},
         {
           //href: 'https://github.com/facebook/docusaurus',
-          href: 'https://git.ipiaget.org/psytech/education-dashboard',
+          href: 'https://git.ipiaget.org/psytech',
           label: 'GitLab',
           position: 'right',
         },
@@ -95,8 +95,8 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Roadmap',
-              to: '/docs/category/education-dashboard',
+              label: 'Education Dashboard',
+              to: 'https://naelquin.github.io/education_dashboard_roadmap/',
             },
           ],
         },
@@ -120,10 +120,10 @@ const config: Config = {
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
+            // {
+            //   label: 'Blog',
+            //   to: '/blog',
+            // },
             {
               label: 'GitLab',
               href: 'https://git.ipiaget.org/psytech/',
