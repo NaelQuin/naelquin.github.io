@@ -7,8 +7,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
              title: 'Education Dashboard Roadmap',
            tagline: 'Dashboard de indicadores educacionais - OIL Caparica-Trafaria',
-           //favicon: 'img/piageticon.ico',
-           favicon: 'img/insight.ico',
+           //favicon: 'img/faviconLight.ico',
+           favicon: 'img/faviconDark.ico',
             future: { v4: true },
 
                url: 'https://naelquin.github.io',
@@ -67,7 +67,8 @@ const config: Config = {
       title: 'PsyTech Lab',
       logo: {
         alt: 'INSIGHT Logo',
-        src: 'img/logo.png',  
+        src: 'img/insightHead.png',
+        srcDark: 'img/insightHeadWhite.png',  // Used in dark mode
       },
       items: [
         {
@@ -93,7 +94,7 @@ const config: Config = {
           items: [
             {
               label: 'Roadmap',
-              to: '/docs/intro',
+              to: '/docs/category/education-dashboard',
             },
           ],
         },
