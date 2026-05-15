@@ -70,19 +70,19 @@ const config: Config = {
       logo: {
         alt: 'INSIGHT Logo',
         src: 'img/insightHead.png',
-        srcDark: 'img/insightHeadWhite.png',  // Used in dark mode
+        srcDark: 'img/insightHeadWhite.png',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Roadmap',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'tutorialSidebar',
+        //   position: 'left',
+        //   label: 'Roadmap',
+        // },
         //{to: '/blog', label: 'Blog', position: 'left'},
         {
           //href: 'https://github.com/facebook/docusaurus',
-          href: 'https://git.ipiaget.org/psytech/education-dashboard',
+          href: 'https://git.ipiaget.org/psytech',
           label: 'GitLab',
           position: 'right',
         },
@@ -95,8 +95,8 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Roadmap',
-              to: '/docs/category/education-dashboard',
+              label: 'Education Dashboard',
+              to: 'https://naelquin.github.io/education_dashboard_roadmap/',
             },
           ],
         },
