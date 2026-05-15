@@ -93,7 +93,7 @@ const config: Config = {
           items: [
             {
               label: 'Roadmap',
-              to: '/docs/intro',
+              to: '/docs/education-dashboard',
             },
           ],
         },
