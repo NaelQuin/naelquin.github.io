@@ -5,15 +5,15 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-             title: 'Docusaurus Documentation',
+             title: 'Education Dashboard Roadmap',
            tagline: 'Dinosaurs are cool',
            favicon: 'img/favicon.ico',
             future: { v4: true },
 
-  organizationName: 'NaelQuin',
-       projectName: 'education_dashboard_roadmap',
                url: 'https://naelquin.github.io',
            baseUrl: '/education_dashboard_roadmap/',
+  organizationName: 'NaelQuin',
+       projectName: 'education_dashboard_roadmap',
 
      onBrokenLinks: 'throw',
 
