@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkeducation_dashboard_guide=self.webpackChunkeducation_dashboard_guide||[]).push([["5189"],{2948(a){a.exports=JSON.parse('{"metadata":{"permalink":"/education_dashboard_roadmap/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

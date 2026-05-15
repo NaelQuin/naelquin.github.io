@@ -1,0 +1,150 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Instalação do Metabase
+
+A seguir se encontram o guia de instalação do Metabase.
+
+## Requisitos
+
+| Requisito | Mínimo | Recomendado |
+|-----------|--------|-------------|
+| Java | 11+ | 17+ (OpenJDK) |
+| RAM | 1 GB | 2+ GB |
+| Disco | 500 MB | 2 GB |
+| OS | Linux/macOS/Windows | Linux/macOS |
+
+## Instalação
+
+<Tabs>
+  <TabItem value="jar" label="Direto (JAR)" default>
+
+```bash
+# Instalar Java (Ubuntu/Debian)
+sudo apt update && sudo apt install -y openjdk-17-jre
+
+# Verificar versão
+java -version
+
+# Criar pasta e descarregar o JAR
+mkdir ~/metabase && cd ~/metabase
+curl -o metabase.jar https://downloads.metabase.com/v0.50.0/metabase.jar
+
+# Iniciar o Metabase
+java -jar metabase.jar
+
+# Aceder em: http://localhost:3000
+```
+
+**Sistema Operativo**:
+- **Windows:** Instala o OpenJDK via https://adoptium.net/ e corre o mesmo comando no PowerShell ou CMD.
+- **macOS:** `brew install openjdk@17` e depois `java -jar metabase.jar`
+
+**Iniciar como serviço no Linux (systemd):**
+
+```ini
+# /etc/systemd/system/metabase.service
+[Unit]
+Description=Metabase
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/java -jar /home/USER/metabase/metabase.jar
+User=USER
+Restart=always
+Environment=MB_DB_TYPE=postgres
+Environment=MB_DB_DBNAME=metabase
+Environment=MB_DB_PORT=5432
+Environment=MB_DB_USER=metabase
+Environment=MB_DB_PASS=password
+Environment=MB_DB_HOST=localhost
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable metabase
+sudo systemctl start metabase
+```
+
+  </TabItem>
+  <TabItem value="docker-standalone" label="Docker (standalone)">
+
+**Apenas para teste**:
+Esta opção usa a base de dados H2 interna do Metabase. **Não usar em produção** - os dados não persistem de forma fiável.
+
+```bash
+docker run -d \
+  -p 3000:3000 \
+  --name metabase \
+  metabase/metabase:latest
+
+# Aceder em: http://localhost:3000
+```
+
+  </TabItem>
+  <TabItem value="docker-compose" label="Docker Compose (recomendado)">
+
+**Produção**:
+Esta é a abordagem recomendada - Metabase com PostgreSQL dedicado, dados persistentes.
+
+```yaml
+# docker-compose.yml
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: metabase-postgres
+    environment:
+      POSTGRES_USER: metabase
+      POSTGRES_PASSWORD: metabase123
+      POSTGRES_DB: metabase
+    volumes:
+      - pg_metabase_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: metabase123
+      MB_DB_HOST: postgres
+    depends_on:
+      - postgres
+    volumes:
+      - metabase_data:/metabase-data
+
+volumes:
+  pg_metabase_data:
+  metabase_data:
+```
+
+```bash
+# Subir os serviços
+docker-compose up -d
+
+# Verificar logs
+docker-compose logs -f metabase
+
+# Aceder em: http://localhost:3000
+```
+
+  </TabItem>
+</Tabs>
+
+---

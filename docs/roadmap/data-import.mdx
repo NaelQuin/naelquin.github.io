@@ -1,0 +1,146 @@
+---
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Importação dos Dados
+
+## Instalação e Importação
+
+<Tabs>
+  <TabItem value="postgres" label="PostgreSQL" default>
+
+**Instalação local (Ubuntu/Debian):**
+
+```bash
+sudo apt install -y postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# Criar utilizador e base de dados
+sudo -u postgres psql <<EOF
+CREATE USER oil_user WITH PASSWORD 'oil2024';
+CREATE DATABASE oil_trafaria OWNER oil_user;
+GRANT ALL PRIVILEGES ON DATABASE oil_trafaria TO oil_user;
+EOF
+```
+
+**Instalação via Docker:**
+
+```bash
+docker run -d \
+  --name postgres-oil \
+  -e POSTGRES_USER=oil_user \
+  -e POSTGRES_PASSWORD=oil2024 \
+  -e POSTGRES_DB=oil_trafaria \
+  -p 5432:5432 \
+  -v pg_oil_data:/var/lib/postgresql/data \
+  postgres:15
+```
+
+**Importar CSV com psql:**
+
+```bash
+# Copiar CSV para dentro do container (se Docker)
+docker cp dados_trafaria.csv postgres-oil:/tmp/dados_trafaria.csv
+
+# Conectar e importar
+psql -h localhost -U oil_user -d oil_trafaria
+
+-- Dentro do psql:
+\copy participantes(genero, faixa_etaria, habilitacoes, sit_profissional, bairro)
+FROM '/tmp/dados_trafaria.csv'
+DELIMITER ',' CSV HEADER;
+```
+
+**Importar com Python / pandas:**
+
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+
+df = pd.read_csv('dados_trafaria.csv', encoding='utf-8')
+
+# Limpar nomes de colunas
+df.columns = (df.columns
+               .str.strip()
+               .str.lower()
+               .str.replace(' ', '_')
+               .str.replace('ã', 'a')
+               .str.replace('ç', 'c'))
+
+engine = create_engine('postgresql://oil_user:oil2024@localhost:5432/oil_trafaria')
+df.to_sql('participantes_raw', engine, if_exists='replace', index=False)
+print("Importação concluída:", len(df), "registos")
+```
+
+  </TabItem>
+  <TabItem value="mysql" label="MySQL">
+
+**Instalação local (Ubuntu/Debian):**
+
+```bash
+sudo apt install -y mysql-server
+sudo systemctl start mysql
+sudo mysql_secure_installation
+
+# Criar base de dados e utilizador
+sudo mysql <<EOF
+CREATE DATABASE oil_trafaria CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'oil_user'@'localhost' IDENTIFIED BY 'oil2024';
+GRANT ALL PRIVILEGES ON oil_trafaria.* TO 'oil_user'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+```
+
+**Instalação via Docker:**
+
+```bash
+docker run -d \
+  --name mysql-oil \
+  -e MYSQL_ROOT_PASSWORD=root2024 \
+  -e MYSQL_DATABASE=oil_trafaria \
+  -e MYSQL_USER=oil_user \
+  -e MYSQL_PASSWORD=oil2024 \
+  -p 3306:3306 \
+  -v mysql_oil_data:/var/lib/mysql \
+  mysql:8.0
+```
+
+**Importar CSV com MySQL:**
+
+```sql
+USE oil_trafaria;
+
+LOAD DATA LOCAL INFILE '/tmp/dados_trafaria.csv'
+INTO TABLE participantes
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(genero, faixa_etaria, habilitacoes, sit_profissional, bairro);
+```
+
+**Importar com Python / pandas:**
+
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+
+df = pd.read_csv('dados_trafaria.csv', encoding='utf-8')
+engine = create_engine('mysql+pymysql://oil_user:oil2024@localhost:3306/oil_trafaria')
+df.to_sql('participantes_raw', engine, if_exists='replace', index=False)
+```
+
+  </TabItem>
+</Tabs>
+
+## Conectar a Base de Dados ao Metabase
+
+1. Aceder a **Admin → Databases → Add a database**
+2. Selecionar **PostgreSQL** ou **MySQL**
+3. Preencher: Host (`localhost` ou nome do container), Port, Database name, Username, Password
+4. Clicar em **Save** e aguardar sincronização
