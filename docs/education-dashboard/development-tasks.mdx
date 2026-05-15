@@ -1,0 +1,137 @@
+---
+sidebar_position: 2
+---
+
+# Tarefas de Desenvolvimento — Etapas
+
+## 🔵 Etapa 0 — Pré-requisitos e Setup
+
+- [ ] Definir sistema operativo alvo (Linux/macOS/Windows)
+- [ ] Instalar Java 11+ (requisito do Metabase)
+- [ ] Escolher abordagem de instalação: direta (JAR) ou Docker
+- [ ] Escolher SGBD: PostgreSQL ou MySQL (local ou Docker)
+- [ ] Preparar o ficheiro de dados (CSV exportado do SPSS ou Excel)
+- [ ] Criar repositório de código/documentação (Git)
+
+## 🔵 Etapa 1 — Instalação do Metabase
+
+
+Ver [secção 3](#3-instalação-do-metabase) deste documento para instruções detalhadas.
+
+- [ ] Instalar Metabase via JAR direto **ou** via Docker
+- [ ] Confirmar acesso em `http://localhost:3000`
+- [ ] Completar o setup inicial (conta admin, fuso horário, idioma PT)
+- [ ] Conectar ao SGBD (PostgreSQL ou MySQL)
+
+## 🔵 Etapa 2 — Preparação e Importação dos Dados
+
+
+Ver [secção 4](#4-importação-dos-dados) deste documento para instruções detalhadas.
+
+- [ ] Exportar os dados do SPSS em formato CSV
+- [ ] Rever e limpar o CSV (nomes de colunas sem espaços ou caracteres especiais, codificação UTF-8)
+- [ ] Criar a base de dados `oil_trafaria` no PostgreSQL ou MySQL
+- [ ] Criar as tabelas necessárias (ver esquema sugerido abaixo)
+- [ ] Importar o CSV com `psql COPY` / `LOAD DATA INFILE` ou via Python/pandas
+- [ ] Verificar integridade dos dados no Metabase (Browse Data)
+
+**Esquema de tabelas sugerido:**
+
+```sql
+-- Tabela principal de participantes
+CREATE TABLE participantes (
+    id              SERIAL PRIMARY KEY,
+    genero          VARCHAR(30),
+    faixa_etaria    VARCHAR(20),
+    habilitacoes    VARCHAR(60),
+    sit_profissional VARCHAR(60),
+    bairro          VARCHAR(60)
+);
+
+-- Escalas
+CREATE TABLE escalas (
+    participante_id  INT REFERENCES participantes(id),
+    sc_integracao    NUMERIC(4,2),   -- Sentido de Comunidade: Integração
+    sc_envolvimento  NUMERIC(4,2),   -- Sentido de Comunidade: Envolvimento
+    sc_global        NUMERIC(4,2),
+    ec_atitudes      NUMERIC(4,2),   -- Envolvimento Cívico: Atitudes
+    ec_comportamentos NUMERIC(4,2),  -- Envolvimento Cívico: Comportamentos
+    ec_global        NUMERIC(4,2)
+);
+
+-- Projetos "Comunidades em Ação"
+CREATE TABLE projetos_conhecimento (
+    participante_id  INT REFERENCES participantes(id),
+    projeto_id       INT,
+    projeto_nome     VARCHAR(120),
+    resposta         VARCHAR(20)  -- 'nao_ouvi', 'ouvi', 'participei'
+);
+
+-- Atividades comunitárias
+CREATE TABLE atividades_comunitarias (
+    participante_id  INT REFERENCES participantes(id),
+    atividade_id     INT,
+    atividade_nome   VARCHAR(120),
+    resposta         VARCHAR(20)
+);
+
+-- Práticas de participação
+CREATE TABLE praticas_participacao (
+    participante_id  INT REFERENCES participantes(id),
+    pratica          VARCHAR(120),
+    realizou         BOOLEAN
+);
+
+-- Interesse e motivações
+CREATE TABLE interesse_participacao (
+    participante_id  INT REFERENCES participantes(id),
+    interesse        VARCHAR(20),  -- 'sim', 'nao', 'nao_sei'
+    areas_interesse  TEXT,         -- lista separada por vírgula
+    motivos_nao      TEXT,
+    condicoes        TEXT
+);
+
+-- Comunicação
+CREATE TABLE canais_comunicacao (
+    participante_id  INT REFERENCES participantes(id),
+    canal            VARCHAR(60)
+);
+
+-- Perfis de participação
+CREATE TABLE perfis (
+    participante_id  INT REFERENCES participantes(id),
+    perfil           VARCHAR(20)   -- 'baixo', 'intermedio', 'avancado'
+);
+```
+
+## 🔵 Etapa 3 — Criação de Perguntas (Questions) no Metabase
+
+- [ ] Criar questão: Distribuição por género (pie chart)
+- [ ] Criar questão: Distribuição por faixa etária (bar chart)
+- [ ] Criar questão: Distribuição por bairro (bar chart / mapa)
+- [ ] Criar questão: Médias SC e EC por situação profissional (grouped bar)
+- [ ] Criar questão: Conhecimento e participação nos 19 projetos (stacked bar)
+- [ ] Criar questão: Participação em atividades comunitárias (stacked bar)
+- [ ] Criar questão: Perfis de participação (pie / donut)
+- [ ] Criar questão: Áreas de interesse para participação (bar horizontal)
+- [ ] Criar questão: Canais de comunicação mais eficazes (bar horizontal)
+- [ ] Criar questão: Motivos de não participação (bar horizontal)
+- [ ] Criar questão: Condições para envolvimento (bar horizontal)
+- [ ] Criar questão: Correlação SC vs. EC (scatter plot via SQL custom)
+
+## 🔵 Etapa 4 — Construção da Dashboard
+
+- [ ] Criar dashboard principal: **"OIL Trafaria — Visão Geral"**
+- [ ] Adicionar cartões KPI (N participantes, % interesse, médias globais)
+- [ ] Organizar secções: Sociodemografia / Projetos / Escalas / Participação / Interesse
+- [ ] Adicionar filtros interativos: Bairro, Situação Profissional, Perfil
+- [ ] Configurar drill-through entre gráficos (click → detalhe)
+- [ ] Rever layout responsivo
+
+## 🔵 Etapa 5 — Revisão, Publicação e Partilha
+
+- [ ] Rever todos os gráficos com a equipa de investigação
+- [ ] Criar utilizadores com diferentes permissões (admin, viewer)
+- [ ] Configurar exportação de PDF/PNG dos dashboards
+- [ ] (Opcional) Agendar envio de relatório automático por email
+- [ ] Documentar fontes de dados e metodologia na descrição da dashboard
