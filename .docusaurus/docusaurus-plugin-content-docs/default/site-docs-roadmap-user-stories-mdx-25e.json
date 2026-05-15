@@ -1,0 +1,27 @@
+{
+  "id": "roadmap/user-stories",
+  "title": "User Stories",
+  "description": "As user stories estão organizadas por perfil de utilizador, com prioridade segundo a escala MoSCoW (Must / Should / Could).",
+  "source": "@site/docs/roadmap/user-stories.mdx",
+  "sourceDirName": "roadmap",
+  "slug": "/roadmap/user-stories",
+  "permalink": "/education_dashboard_roadmap/docs/roadmap/user-stories",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/roadmap/user-stories.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Introdução",
+    "permalink": "/education_dashboard_roadmap/docs/roadmap/introduction"
+  },
+  "next": {
+    "title": "Tarefas de Desenvolvimento - Etapas",
+    "permalink": "/education_dashboard_roadmap/docs/roadmap/development-tasks"
+  }
+}

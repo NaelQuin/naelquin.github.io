@@ -1,0 +1,27 @@
+{
+  "id": "education-dashboard/support-materials",
+  "title": "Recursos de Apoio ao Desenvolvimento",
+  "description": "Documentação Oficial",
+  "source": "@site/docs/education-dashboard/support-materials.mdx",
+  "sourceDirName": "education-dashboard",
+  "slug": "/education-dashboard/support-materials",
+  "permalink": "/education_dashboard_roadmap/docs/education-dashboard/support-materials",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/education-dashboard/support-materials.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Sugestões de Gráficos e Insights para a Dashboard",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/dashboard-insights"
+  },
+  "next": {
+    "title": "Notas Finais e Boas Práticas",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/final-notes"
+  }
+}

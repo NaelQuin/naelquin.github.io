@@ -1,0 +1,27 @@
+{
+  "id": "education-dashboard/dashboard-insights",
+  "title": "Sugestões de Gráficos e Insights para a Dashboard",
+  "description": "Secção: Perfil da Amostra",
+  "source": "@site/docs/education-dashboard/dashboard-insights.mdx",
+  "sourceDirName": "education-dashboard",
+  "slug": "/education-dashboard/dashboard-insights",
+  "permalink": "/education_dashboard_roadmap/docs/education-dashboard/dashboard-insights",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/education-dashboard/dashboard-insights.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Importação dos Dados",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/data-import"
+  },
+  "next": {
+    "title": "Recursos de Apoio ao Desenvolvimento",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/support-materials"
+  }
+}

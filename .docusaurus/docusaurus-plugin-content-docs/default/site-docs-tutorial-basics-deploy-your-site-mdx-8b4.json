@@ -1,0 +1,27 @@
+{
+  "id": "tutorial-basics/deploy-your-site",
+  "title": "Deploy your site",
+  "description": "Docusaurus is a static-site-generator (also called Jamstack).",
+  "source": "@site/docs/tutorial-basics/deploy-your-site.mdx",
+  "sourceDirName": "tutorial-basics",
+  "slug": "/tutorial-basics/deploy-your-site",
+  "permalink": "/education_dashboard_roadmap/docs/tutorial-basics/deploy-your-site",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/tutorial-basics/deploy-your-site.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Markdown Features",
+    "permalink": "/education_dashboard_roadmap/docs/tutorial-basics/markdown-features"
+  },
+  "next": {
+    "title": "Congratulations!",
+    "permalink": "/education_dashboard_roadmap/docs/tutorial-basics/congratulations"
+  }
+}

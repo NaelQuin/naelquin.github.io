@@ -1,0 +1,27 @@
+{
+  "id": "tutorial-basics/congratulations",
+  "title": "Congratulations!",
+  "description": "You have just learned the basics of Docusaurus and made some changes to the initial template.",
+  "source": "@site/docs/tutorial-basics/congratulations.mdx",
+  "sourceDirName": "tutorial-basics",
+  "slug": "/tutorial-basics/congratulations",
+  "permalink": "/education_dashboard_roadmap/docs/tutorial-basics/congratulations",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/tutorial-basics/congratulations.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Deploy your site",
+    "permalink": "/education_dashboard_roadmap/docs/tutorial-basics/deploy-your-site"
+  },
+  "next": {
+    "title": "Tutorial - Extras",
+    "permalink": "/education_dashboard_roadmap/docs/category/tutorial---extras"
+  }
+}

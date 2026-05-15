@@ -1,0 +1,27 @@
+{
+  "id": "metabase-installation",
+  "title": "Instalação do Metabase",
+  "description": "A seguir se encontram o guia de instalação do Metabase.",
+  "source": "@site/docs/metabase-installation.mdx",
+  "sourceDirName": ".",
+  "slug": "/metabase-installation",
+  "permalink": "/education_dashboard_roadmap/docs/metabase-installation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/metabase-installation.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "User Stories",
+    "permalink": "/education_dashboard_roadmap/docs/user-stories"
+  },
+  "next": {
+    "title": "Recursos de Apoio ao Desenvolvimento",
+    "permalink": "/education_dashboard_roadmap/docs/support-materials"
+  }
+}

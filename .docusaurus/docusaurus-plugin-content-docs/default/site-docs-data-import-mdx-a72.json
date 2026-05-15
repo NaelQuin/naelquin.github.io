@@ -1,0 +1,27 @@
+{
+  "id": "data-import",
+  "title": "Importação dos Dados",
+  "description": "Instalação e Importação",
+  "source": "@site/docs/data-import.mdx",
+  "sourceDirName": ".",
+  "slug": "/data-import",
+  "permalink": "/education_dashboard_roadmap/docs/data-import",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/data-import.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Instalação do Metabase",
+    "permalink": "/education_dashboard_roadmap/docs/metabase-installation"
+  },
+  "next": {
+    "title": "Recursos de Apoio ao Desenvolvimento",
+    "permalink": "/education_dashboard_roadmap/docs/support-materials"
+  }
+}

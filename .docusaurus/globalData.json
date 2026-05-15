@@ -1,0 +1,73 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/education_dashboard_roadmap/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/education_dashboard_roadmap/docs",
+          "mainDocId": "roadmap/introduction",
+          "docs": [
+            {
+              "id": "roadmap/dashboard-insights",
+              "path": "/education_dashboard_roadmap/docs/roadmap/dashboard-insights",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/data-import",
+              "path": "/education_dashboard_roadmap/docs/roadmap/data-import",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/development-tasks",
+              "path": "/education_dashboard_roadmap/docs/roadmap/development-tasks",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/final-notes",
+              "path": "/education_dashboard_roadmap/docs/roadmap/final-notes",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/introduction",
+              "path": "/education_dashboard_roadmap/docs/roadmap/introduction",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/metabase-installation",
+              "path": "/education_dashboard_roadmap/docs/roadmap/metabase-installation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/support-materials",
+              "path": "/education_dashboard_roadmap/docs/roadmap/support-materials",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap/user-stories",
+              "path": "/education_dashboard_roadmap/docs/roadmap/user-stories",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/education-dashboard",
+              "path": "/education_dashboard_roadmap/docs/category/education-dashboard",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/education_dashboard_roadmap/docs/category/education-dashboard",
+                "label": "Education Dashboard"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

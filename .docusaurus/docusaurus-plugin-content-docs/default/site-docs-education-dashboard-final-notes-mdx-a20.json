@@ -1,0 +1,23 @@
+{
+  "id": "education-dashboard/final-notes",
+  "title": "Notas Finais e Boas Práticas",
+  "description": "Anonimato dos Dados:",
+  "source": "@site/docs/education-dashboard/final-notes.mdx",
+  "sourceDirName": "education-dashboard",
+  "slug": "/education-dashboard/final-notes",
+  "permalink": "/education_dashboard_roadmap/docs/education-dashboard/final-notes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/education-dashboard/final-notes.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Recursos de Apoio ao Desenvolvimento",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/support-materials"
+  }
+}

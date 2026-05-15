@@ -1,0 +1,23 @@
+{
+  "id": "support-materials",
+  "title": "Recursos de Apoio ao Desenvolvimento",
+  "description": "Documentação Oficial",
+  "source": "@site/docs/support-materials.mdx",
+  "sourceDirName": ".",
+  "slug": "/support-materials",
+  "permalink": "/education_dashboard_roadmap/docs/support-materials",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/support-materials.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "User Stories",
+    "permalink": "/education_dashboard_roadmap/docs/user-stories"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "education-dashboard/introduction",
+  "title": "Dashboard de Educação - Roadmap",
+  "description": "Guia de desenvolvimento de uma dashboard educacional com Metabase, baseada nos dados do projeto OIL Caparica-Trafaria.",
+  "source": "@site/docs/education-dashboard/introduction.mdx",
+  "sourceDirName": "education-dashboard",
+  "slug": "/education-dashboard/introduction",
+  "permalink": "/education_dashboard_roadmap/docs/education-dashboard/introduction",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://git.ipiaget.org/psytech/education-dashboard/-/edit/main/docs/education-dashboard/introduction.mdx",
+  "tags": [
+    {
+      "inline": true,
+      "label": "metabase",
+      "permalink": "/education_dashboard_roadmap/docs/tags/metabase"
+    },
+    {
+      "inline": true,
+      "label": "dashboard",
+      "permalink": "/education_dashboard_roadmap/docs/tags/dashboard"
+    },
+    {
+      "inline": true,
+      "label": "postgresql",
+      "permalink": "/education_dashboard_roadmap/docs/tags/postgresql"
+    },
+    {
+      "inline": true,
+      "label": "mysql",
+      "permalink": "/education_dashboard_roadmap/docs/tags/mysql"
+    },
+    {
+      "inline": true,
+      "label": "docker",
+      "permalink": "/education_dashboard_roadmap/docs/tags/docker"
+    },
+    {
+      "inline": true,
+      "label": "educação",
+      "permalink": "/education_dashboard_roadmap/docs/tags/educacao"
+    }
+  ],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "Dashboard de Educação - Roadmap",
+    "sidebar_label": "Introdução",
+    "sidebar_position": 1,
+    "description": "Guia de desenvolvimento de uma dashboard educacional com Metabase, baseada nos dados do projeto OIL Caparica-Trafaria.",
+    "tags": [
+      "metabase",
+      "dashboard",
+      "postgresql",
+      "mysql",
+      "docker",
+      "educação"
+    ]
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Education Dashboard - Roadmap",
+    "permalink": "/education_dashboard_roadmap/docs/category/education-dashboard---roadmap"
+  },
+  "next": {
+    "title": "User Stories",
+    "permalink": "/education_dashboard_roadmap/docs/education-dashboard/user-stories"
+  }
+}
