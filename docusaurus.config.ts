@@ -6,16 +6,16 @@ const config: Config = {
   /* ======================================================== *
    * Main settings                                            *
    * ======================================================== */
-             title: 'Education Dashboard Roadmap',
-           tagline: 'Dashboard de indicadores educacionais - OIL Caparica-Trafaria',
+             title: 'PsyTech Lab - Roadmaps',
+           tagline: 'PsyTech Lab project\'s roadmaps for interns.',
            //favicon: 'img/faviconLight.ico',
            favicon: 'img/faviconDark.ico',
             future: { v4: true },
 
                url: 'https://naelquin.github.io',
-           baseUrl: '/education_dashboard_roadmap/',
+           baseUrl: '/',
   organizationName: 'NaelQuin',
-       projectName: 'education_dashboard_roadmap',
+       projectName: 'naelquin.github.io',
 
      onBrokenLinks: 'throw',
    onBrokenAnchors: 'warn',
@@ -73,12 +73,12 @@ const config: Config = {
         srcDark: 'img/insightHeadWhite.png',
       },
       items: [
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'tutorialSidebar',
-        //   position: 'left',
-        //   label: 'Roadmap',
-        // },
+        {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: 'Roadmaps',
+        },
         //{to: '/blog', label: 'Blog', position: 'left'},
         {
           //href: 'https://github.com/facebook/docusaurus',
