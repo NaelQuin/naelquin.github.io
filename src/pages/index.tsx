@@ -2,8 +2,9 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import { Box, Typography } from '@mui/material'; // Using MUI for easy layout
+
 import HomeLogo from '../components/HomeInsightLogo';
-import { ProjectList } from '../data/projects';
+import { ProjectList } from '../data/ProjectList';
 
 export default function Home() {
   return (

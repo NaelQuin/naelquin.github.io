@@ -80,58 +80,84 @@ const config: Config = {
           label: 'Roadmaps',
         },
         //{to: '/blog', label: 'Blog', position: 'left'},
-        {
-          //href: 'https://github.com/facebook/docusaurus',
-          href: 'https://git.ipiaget.org/psytech',
-          label: 'GitLab',
-          position: 'right',
-        },
+        // {
+        //   href: 'https://investigacao.ipiaget.org',
+        //   position: 'right',
+        //   className: 'header-insight-link',
+        //   'aria-label': 'INSIGHT website',
+        // },
+        // {
+        //   href: 'https://ipiaget.org',
+        //   position: 'right',
+        //   className: 'header-piaget-link',
+        //   'aria-label': 'Insituto Piaget website',
+        // },
+        // {
+        //   href: 'https://git.ipiaget.org/psytech',
+        //   position: 'right',
+        //   className: 'header-gitlab-link',
+        //   'aria-label': 'GitLab repository',
+        // },
       ],
     },
+    // footer: {
+    //   style: 'dark',
+    //   links: [
+    //     {
+    //       title: 'Docs',
+    //       items: [
+    //         {
+    //           label: 'Roadmaps',
+    //           to: '/docs/category/getting-started',
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       title: 'Community',
+    //       items: [
+    //         {
+    //           label: 'INSIGHT',
+    //           href: 'https://investigacao.ipiaget.org/',
+    //         },
+    //         {
+    //           label: 'Insituto Piaget',
+    //           href: 'https://ipiaget.org/',
+    //         },
+    //         // {
+    //         //   label: 'X',
+    //         //   href: 'https://x.com/docusaurus',
+    //         // },
+    //       ],
+    //     },
+    //     {
+    //       title: 'More',
+    //       items: [
+    //         // {
+    //         //   label: 'Blog',
+    //         //   to: '/blog',
+    //         // },
+    //         {
+    //           label: 'GitLab Repository',
+    //           href: 'https://git.ipiaget.org/psytech/',
+    //         },
+    //       ],
+    //     },
+    //   ],
+    //   copyright: `Copyright © ${new Date().getFullYear()} PsyTech - INSIGHT Built with Docusaurus.`,
+    // },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Education Dashboard',
-              to: 'https://naelquin.github.io/education_dashboard_roadmap/',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'INSIGHT',
-              href: 'https://investigacao.ipiaget.org/',
-            },
-            {
-              label: 'Insituto Piaget',
-              href: 'https://ipiaget.org/',
-            },
-            // {
-            //   label: 'X',
-            //   href: 'https://x.com/docusaurus',
-            // },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            // {
-            //   label: 'Blog',
-            //   to: '/blog',
-            // },
-            {
-              label: 'GitLab',
-              href: 'https://git.ipiaget.org/psytech/',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} PsyTech - INSIGHT Built with Docusaurus.`,
+      links: [], // Leave this empty if you want to remove the multi-column text entirely
+      copyright: `
+        <div class="footer-social-icons">
+          <a href="https://git.ipiaget.org/psytech" target="_blank" rel="noopener noreferrer" class="footer-icon-link gitlab-icon" title="GitLab Repository"></a>
+          <a href="https://investigacao.ipiaget.org" target="_blank" rel="noopener noreferrer" class="footer-icon-link insight-icon" title="INSIGHT"></a>
+          <a href="https://ipiaget.org" target="_blank" rel="noopener noreferrer" class="footer-icon-link piaget-icon" title="Instituto Piaget"></a>
+        </div>
+        <div class="footer-copyright-text">
+          Copyright © ${new Date().getFullYear()} PsyTech - INSIGHT Built with Docusaurus.
+        </div>
+      `,
     },
     prism: {
       theme: prismThemes.github,

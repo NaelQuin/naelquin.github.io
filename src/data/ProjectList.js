@@ -6,7 +6,7 @@ export const ProjectList = [
   },
   {
     title: 'Education Dashboard',
-    description: 'Dashboard de indicadores educacionais - OIL Caparica-Trafaria.',
+    description: 'Dashboard de indicadores educacionais',
     link: '/docs/category/education-dashboard',
   }
 ];
