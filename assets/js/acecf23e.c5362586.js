@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkeducation_dashboard_guide=self.webpackChunkeducation_dashboard_guide||[]).push([["3220"],{1912(a){a.exports=JSON.parse('{"blogBasePath":"/blog","blogTitle":"Blog","authorsListPath":"/blog/authors"}')}}]);
