@@ -13,5 +13,5 @@ export const ProjectList = [
     title: 'PiagetEdu Observatory',
     description: 'PiagetEdu Observatory',
     link: '/docs/category/piagetedu-observatory',
-  },
+  }
 ];
