@@ -1,6 +1,6 @@
 {
   "label": "PiagetEdu Observatory",
-  "position": 1,
+  "position": 3,
   "link": {
     "type": "generated-index",
     "description": "A comprehensive roadmap outlining project goals and the sequence of tasks required for full implementation."
