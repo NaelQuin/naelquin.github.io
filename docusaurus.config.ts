@@ -16,6 +16,8 @@ const config: Config = {
            baseUrl: '/',
   organizationName: 'NaelQuin',
        projectName: 'naelquin.github.io',
+  deploymentBranch: 'gh-pages',
+     trailingSlash: false, // Fixes the warning Docusaurus gave you!
 
      onBrokenLinks: 'throw',
    onBrokenAnchors: 'warn',
