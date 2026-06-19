@@ -6,6 +6,8 @@ import { Box, Typography } from '@mui/material'; // Using MUI for easy layout
 import HomeLogo from '../components/HomeInsightLogo';
 import { ProjectList } from '../data/ProjectList';
 
+console.log("ProjectList: " + ProjectList);
+
 export default function Home() {
   return (
     <Layout title="">
