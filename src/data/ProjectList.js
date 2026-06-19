@@ -8,5 +8,10 @@ export const ProjectList = [
     title: 'Education Dashboard',
     description: 'Dashboard de indicadores educacionais',
     link: '/docs/category/education-dashboard',
-  }
+  },
+  {
+    title: 'PiagetEdu Observatory',
+    description: 'PiagetEdu Observatory',
+    link: '/docs/category/piagetedu-observatory',
+  },
 ];

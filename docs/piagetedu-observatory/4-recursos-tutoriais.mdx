@@ -1,0 +1,57 @@
+---
+sidebar_position: 4
+title: 4. Recursos e Tutoriais
+---
+
+import Admonition from '@theme/Admonition';
+
+Para capacitar a equipa de estagiários nas tecnologias envolvidas, foi estruturada esta matriz de conhecimento. Recomenda-se que os estagiários dediquem a primeira semana de integração ao estudo destes materiais e à criação de pequenos scripts de teste (*PoCs*).
+
+:::tip[Dica de Aprendizagem]
+A ordem sugerida para consumo do conteúdo reflete o fluxo de dados: **Tratamento de Imagem/OCR ➡️ Engenharia de Prompts (LLM) ➡️ Manipulação de Excel**.
+:::
+
+## 📺 Vídeos e Cursos Práticos
+
+### Visão Computacional e OCR
+* **Extração de Dados com OCR e Python:** [YouTube - Python Tesseract OCR Tutorial](https://www.youtube.com/watch?v=6DjFscX4I_c)  
+  *O que vão aprender:* Fundamentos de manipulação de imagem com OpenCV e extração de texto em Python. Essencial para isolar as caixas de texto manuscritas.
+* **Google Cloud Vision API com Python:** [YouTube - Google Cloud Vision API Tutorial](https://www.youtube.com/watch?v=MyuY8Z6Lsc0)  
+  *O que vão aprender:* Como enviar imagens para a API da Google para extrair caligrafia cursiva com alta precisão.
+
+### Engenharia de Prompts e Modelos de Linguagem
+* **Trabalhar com a API da OpenAI e JSON Estruturado:** [DeepLearning.AI - ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/)  
+  *O que vão aprender:* Curso gratuito indispensável criado pela OpenAI e Andrew Ng. Foca em como criar diretrizes para o modelo responder em formatos estruturados (JSON) sem sofrer alucinações.
+
+---
+
+## ✍️ Blogs e Documentação Técnica
+
+### Manipulação de Excel com Python
+* **Automatizar Ficheiros XLSX:** [Real Python - Reading and Writing XLSX Files with openpyxl](https://realpython.com/openpyxl-excel-python-edube/)  
+  *Foco:* Guia passo a passo para criar folhas de cálculo, formatar colunas (definir a coluna ID como chave primária), tratar células vazias e gerar tabelas finais robustas.
+
+### OCR para Escrita Manual (Handwriting)
+* **Avanços em Inteligência Artificial para Caligrafia:** [Towards Data Science - Handwriting Recognition using Deep Learning](https://towardsdatascience.com/handwriting-recognition-with-deep-learning-308ded46152a)  
+  *Foco:* Artigo conceitual que detalha as dificuldades específicas de decifrar letras cursivas e como técnicas modernas combinam a leitura visual com o contexto semântico.
+
+### Integração Estruturada (OCR + LLM)
+* **Framework para Extração de Dados:** [LangChain Documentation - Extraction Tutorial](https://python.langchain.com/v0.2/docs/tutorials/extraction/)  
+  *Foco:* Documentação oficial sobre como pegar num texto bruto (saído de um OCR) e usar esquemas do *Pydantic* com LLMs para preencher relatórios estruturados de forma automatizada.
+
+---
+
+## 🛠️ Caixa de Ferramentas (Cheat Sheet)
+
+Para acelerar o desenvolvimento, os estagiários devem instalar e familiarizar-se com as seguintes bibliotecas no seu ambiente virtual:
+
+| Biblioteca | Utilidade Principal | Link de Referência |
+| :--- | :--- | :--- |
+| `opencv-python` | Pré-processamento da imagem (contraste/binarização) | [Docs](https://docs.opencv.org/) |
+| `easyocr` ou `pytesseract` | Motores de OCR locais para testes rápidos | [EasyOCR GitHub](https://github.com/JaidedAI/EasyOCR) |
+| `openai` / `google-genai` | SDKs oficiais para comunicação com os LLMs | [OpenAI API Docs](https://platform.openai.com/docs/) |
+| `openpyxl` | Escrita direta nativa em ficheiros `.xlsx` | [openpyxl Docs](https://openpyxl.readthedocs.io/) |
+
+<Admonition type="caution" title="Gestão de Chaves de API">
+Nunca guardem chaves de API (OpenAI, Google Cloud, etc.) diretamente no código dos scripts. Utilizem sempre variáveis de ambiente com a biblioteca `python-dotenv`.
+</Admonition>

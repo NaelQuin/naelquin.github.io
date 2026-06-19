@@ -1,0 +1,68 @@
+---
+sidebar_position: 6
+title: 4.1.1 Criando uma API Key para o Gemini
+---
+
+## 🔑 Apêndice: Como Gerar a Chave de API do Gemini
+Para que o script do LangChain consiga comunicar com os modelos da Google, cada estagiário precisa de gerar uma chave de acesso privada (API Key) individual e gratuita para desenvolvimento.
+### Pasos para Obtenção da Chave
+ 1. **Aceder ao Google AI Studio:**
+   * Entrem no site oficial do ambiente de desenvolvimento da Google: Google AI Studio
+   * Iniciem sessão com uma conta Google (pode ser a vossa conta institucional ou pessoal, conforme orientação da coordenação).
+ 2. **Criar a Chave de API:**
+   * No menu lateral esquerdo, cliquem no botão **"Get API key"** (Obter chave de API).
+   * No ecrã principal, cliquem no botão azul **"Create API key"**.
+   * Se vos for solicitado, selecionem a opção *"Create API key in a new project"* (Criar chave de API num novo projeto).
+ 3. **Copiar e Proteger a Chave:**
+   * Uma janela pop-up será exibida com uma sequência longa de caracteres (começando normalmente por AIzaSy...).
+   * Cliquem em **"Copy"** para guardar a chave na vossa área de transferência.
+:::danger[Aviso de Segurança Crítico]
+**Nunca, em circunstância alguma, partilhem a vossa chave de API**, não a enviem por mensagens, nem façam *commit* dela para o GitHub/GitLab. Se a vossa chave for exposta publicamente, o algoritmo de segurança da Google irá bloqueá-la automaticamente em poucos minutos.
+:::
+### 🛠️ Como Configurar a Chave no Projeto
+Para que o script Python encontre a chave sem que ela fique escrita diretamente no código (o que viola as boas práticas de segurança), os alunos devem utilizar o ficheiro .env criado na Fase 1.
+ 1. Abram o ficheiro .env na raiz do projeto.
+ 2. Adicionem a linha abaixo, substituindo o texto demonstrativo pela chave real que acabaram de copiar:
+```env
+# Configuração de Credenciais do Projeto
+GOOGLE_API_KEY=AIzaSyA1B2C3D4_EXEMPLO_DE_CHAVE_REAL_GEMINI_XYZ
+
+```
+### 🧪 Script de Teste da Chave (Validação)
+Para garantir que a chave está ativa, que as permissões estão corretas e que o ambiente virtual consegue ler o ficheiro .env, os estagiários devem criar e rodar um script rápido chamado testar_conexao_gemini.py:
+```python
+import os
+from dotenv import load_model, load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+# 1. Carrega a chave a partir do ficheiro .env
+load_dotenv()
+
+# Verifica se a variável existe no ambiente antes de chamar a API
+if not os.getenv("GOOGLE_API_KEY"):
+    print("❌ Erro: A variável GOOGLE_API_KEY não foi encontrada no ficheiro .env!")
+    exit(1)
+
+try:
+    print("📡 A testar ligação com os servidores da Google...")
+    
+    # 2. Inicializa o modelo mais leve apenas para teste de ping
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+    
+    # 3. Envia uma pergunta simples
+    resposta = llm.invoke("Responde apenas com a palavra: 'Conectado'.")
+    
+    # 4. Valida o retorno
+    print(f"✅ Sucesso! Resposta do Gemini: {resposta.content.strip()}")
+
+except Exception as e:
+    print(f"❌ Falha na ligação. Motivos possíveis: Chave inválida ou bloqueada por proxy/firewall.")
+    print(f"Detalhe do erro: {e}")
+
+```
+#### Execução no terminal:
+```bash
+python testar_conexao_gemini.py
+
+```
+Se o terminal devolver ✅ Sucesso! Resposta do Gemini: Conectado, o ambiente do estagiário está 100% operacional para iniciar o desenvolvimento do pipeline de extração da Tarefa 2.

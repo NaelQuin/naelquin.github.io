@@ -1,0 +1,36 @@
+---
+sidebar_position: 3
+title: 3. Tarefas Detalhadas
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+O plano de execução prático para a equipa está dividido em três fases estruturadas:
+
+<Tabs>
+  <TabItem value="fase1" label="Fase 1: Preparação (M1)" default>
+    ### Preparação, Triagem e Etiquetagem
+    
+    - [ ] **Tarefa 1.1:** Recolher todos os inquéritos em papel e definir o padrão do identificador único (ex: `INQ-2026-0001`).
+    - [ ] **Tarefa 1.2:** Colar o autocolante com o código identificador (ID único ou Código de Barras/QR Code) numa zona padronizada e visível (ex: canto superior direito) de cada inquérito físico.
+    - [ ] **Tarefa 1.3:** Digitalizar os documentos em alta resolução (mínimo de 300 DPI). O nome do ficheiro digital deve ser exatamente o ID do autocolante (ex: `INQ-2026-0001.png`).
+    - [ ] **Tarefa 1.4:** Configurar o ambiente de desenvolvimento Python (ambiente virtual `venv` ou `conda`).
+  </TabItem>
+  
+  <TabItem value="fase2" label="Fase 2: Pipeline Técnico (M2/M3)">
+    ### Desenvolvimento do Pipeline Automatizado
+    
+    - [ ] **Tarefa 2.1 (OCR):** Testar ferramentas de extração para texto manuscrito. O script deve ler o ID do ficheiro/imagem para associá-lo ao texto extraído.
+    - [ ] **Tarefa 2.2 (LLM Prompting):** Desenvolver o script em Python para estruturar o texto limpo em formato JSON utilizando *Structured Outputs*. O JSON gerado deve obrigatoriamente conter o campo `"id_inquerito": "ID_AQUI"` como chave principal.
+    - [ ] **Tarefa 2.3 (Persistência no Excel):** Criar uma rotina em Python (`pandas`/`openpyxl`) para inserir os dados no Excel. A **primeira coluna** da folha de cálculo deve ser preenchida de forma obrigatória com a "Tag/ID do Inquérito", servindo de chave primária na tabela.
+  </TabItem>
+  
+  <TabItem value="fase3" label="Fase 3: Qualidade (M4)">
+    ### Processamento em Lote e Controle de Qualidade
+    
+    - [ ] **Tarefa 3.1:** Executar o pipeline para o primeiro lote de 50 inquéritos para calibrar os *prompts* do LLM e validar se a associação do ID físico com o digital está correta.
+    - [ ] **Tarefa 3.2:** Implementar uma flag de "confiança" ou um script simples (via Streamlit ou Gradio) para revisão rápida, exibindo o ID do documento na interface para facilitar a busca do papel físico na pasta se necessário.
+    - [ ] **Tarefa 3.3:** Rodar o processamento massivo e consolidar a folha de cálculo final devidamente indexada pelas tags.
+  </TabItem>
+</Tabs>

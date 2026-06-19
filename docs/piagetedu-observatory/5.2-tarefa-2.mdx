@@ -1,0 +1,84 @@
+---
+sidebar_position: 6
+title: 5.2 Manual - Tarefa 2 (Gemini + LangChain)
+---
+
+import Admonition from '@theme/Admonition';
+
+# 🛠️ Desenvolvimento do Pipeline Técnico de Extração
+
+Este manual orienta a criação do motor de extração, combinando o **LangChain** com o **Google Gemini** para transformar transcrições manuscritas em esquemas estruturados.
+
+## 🔑 Como Gerar a Chave de API do Gemini
+
+1. Aceda ao portal do [Google AI Studio](https://aistudio.google.com/).
+2. Inicie sessão com uma conta Google aprovada.
+3. No menu lateral esquerdo, clique no botão **"Get API key"**.
+4. Clique em **"Create API key"**, opte por *"Create API key in a new project"*.
+5. Copie o token gerado (`AIzaSy...`) e cole-o imediatamente no seu ficheiro `.env` na variável `GOOGLE_API_KEY`.
+
+<Admonition type="danger" title="Aviso de Segurança Crítico">
+  Nunca publique a sua chave no GitHub/GitLab, nem a envie por mensagens públicas. O ficheiro `.env` deve ser mantido localmente.
+</Admonition>
+
+---
+
+## 🏗️ Construção da Pipeline com Structured Outputs
+
+Crie o ficheiro `pipeline_langchain_gemini.py`. Este script define o modelo estrito de saída que desejamos no Excel através do **Pydantic** e força o Gemini a segui-lo nativamente através do método `.with_structured_output()`.
+
+```python
+import os
+from dotenv import load_dotenv
+from pydantic import BaseModel, Field
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+
+load_dotenv()
+
+# 1. Definição do esquema JSON esperado via Pydantic
+class InqueritoEstruturado(BaseModel):
+    id_inquerito: str = Field(description="ID extraído do nome do ficheiro, ex: INQ-2026-0001.")
+    nome_respondente: str = Field(description="Nome completo corrigido. Se ilegível, preencher como 'Não identificado'.")
+    idade: int = Field(description="Idade em anos inteiros. Se oculta ou não informada, usar -1.")
+    satisfacao_geral: str = Field(description="Classificar obrigatoriamente como: 'Satisfeito', 'Neutro' ou 'Insatisfeito'.")
+    comentarios_adicionais: str = Field(description="Transcrição corrigida, limpa e padronizada das notas cursivas ruidosas.")
+    confianca_extracao: float = Field(description="Nota de 0.0 a 1.0 sobre a legibilidade estimada da caligrafia.")
+
+def processar_inquerito_com_gemini(caminho_imagem, texto_bruto_ocr):
+    """Usa o LangChain + Gemini Flash para converter texto ruidoso em dados estruturados."""
+    # Extrai o ID do inquérito pelo nome do ficheiro de imagem
+    tag_id = os.path.splitext(os.path.basename(caminho_imagem))[0]
+    
+    print(f"🦜🔗 [LangChain] Processando Tag: {tag_id} via Gemini...")
+    
+    # 2. Inicialização do Modelo Gemini
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.1)
+    
+    # 3. Forçar o Structured Output com o esquema Pydantic
+    llm_estruturado = llm.with_structured_output(InqueritoEstruturado)
+    
+    # 4. Definição do Prompt Contextualizado
+    prompt_template = ChatPromptTemplate.from_messages([
+        (
+            "system", 
+            "Atuas como um higienizador de bases de dados. O teu papel é analisar o texto imperfeito vindo "
+            "de um OCR de escrita manual, corrigir os erros gramaticais e mapear o JSON solicitado."
+        ),
+        ("user", "ID do Documento: {id_documento}\nTexto Bruto OCR:\n{texto_ocr}")
+    ])
+    
+    # 5. Criação e execução da Chain
+    chain = prompt_template | llm_estruturado
+    return chain.invoke({"id_documento": tag_id, "texto_ocr": texto_bruto_ocr})
+
+if __name__ == "__main__":
+    # Teste de execução isolada do pipeline
+    caminho_teste = "./docs_digitalizados_validos/INQ-2026-0001.png"
+    texto_ruidoso_mock = "Nome: Marla das Dores Souzap. Idade: axo q tem 45 anos. Nota: axei pessimo o serviso (Insastifeita)."
+    
+    resultado = processar_inquerito_com_gemini(caminho_teste, texto_ruidoso_mock)
+    if resultado:
+        print("\n✨ Resposta Estruturada Gerada:")
+        print(resultado.model_dump_json(indent=2))
+```

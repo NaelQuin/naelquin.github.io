@@ -1,0 +1,109 @@
+---
+sidebar_position: 5
+title: 5.1 Manual - Tarefa 1 (Setup)
+---
+
+# 📋 Configuração, Triagem e Etiquetagem
+
+Este tutorial serve como guia passo a passo para orientar a preparação dos documentos físicos, a configuração do ambiente virtual Python e a padronização dos ficheiros digitais.
+
+## Passo 1: Padronização das Tags e Fluxo Físico
+
+O fluxo de dados e a garantia de rastreabilidade começam na organização dos papéis. O padrão adotado para indexação universal segue a convenção:
+
+$$\text{INQ}-\text{ANO}-\text{NÚMERO SEQUENCIAL}$$
+
+* **Exemplo de Tags:** `INQ-2026-0001`, `INQ-2026-0002`, `INQ-2026-0003`
+* **Regra de Aplicação:** O autocolante com o ID deve ser colado obrigatoriamente no **canto superior direito** da primeira página do inquérito físico antes de iniciar a digitalização. Isto garante uma região previsível na imagem.
+
+---
+
+## Passo 2: Configuração do Ambiente Python
+
+Os estagiários devem isolar as dependências do projeto para evitar conflitos de bibliotecas nos seus computadores.
+
+### Opção A: Utilizando Python venv (Recomendado)
+Abra o terminal na pasta raiz do projeto e execute:
+```bash
+# 1. Criar o ambiente virtual chamado 'env_inqueritos'
+python -m venv env_inqueritos
+
+# 2. Ativar o ambiente virtual
+# No Windows (PowerShell):
+.\env_inqueritos\Scripts\Activate.ps1
+# No Linux ou macOS:
+source env_inqueritos/bin/activate
+
+# 3. Atualizar o gerenciador de pacotes (pip)
+python -m pip install --upgrade pip
+
+```
+### Opção B: Utilizando Anaconda/Miniconda
+```bash
+conda create --name env_inqueritos python=3.11 -y
+conda activate env_inqueritos
+
+```
+## Passo 3: Instalação das Bibliotecas Iniciais
+Com o ambiente virtual ativado (o nome do ambiente deve aparecer entre parênteses no terminal), instale os pacotes base:
+```bash
+pip install opencv-python pillow python-dotenv pandas openpyxl langchain-core langchain-google-genai streamlit
+
+```
+## Passo 4: Validação e Renomeação Automática de Imagens
+Os ficheiros vindos do scanner costumam adotar nomes genéricos (ex: scan_001.png). Crie o ficheiro validar_e_renomear.py para renomear as imagens em lote com base nas tags físicas e validar se possuem a resolução recomendada (mínimo de 300 DPI, aprox. 2000px ou mais).
+```python
+import os
+import cv2
+
+def verificar_e_renomear_lote(pasta_origem, lista_tags):
+    """Verifica os requisitos da imagem e renomeia para o ID do autocolante."""
+    arquivos = sorted([f for f in os.listdir(pasta_origem) if f.lower().endswith(('.png', '.jpg', '.jpeg'))])
+    
+    if len(arquivos) != len(lista_tags):
+        print(f"❌ Erro! Encontradas {len(arquivos)} imagens para {len(lista_tags)} tags.")
+        return
+
+    print("🔍 A iniciar validação e renomeação...")
+    for arquivo, nova_tag in zip(arquivos, lista_tags):
+        caminho_antigo = os.path.join(pasta_origem, arquivo)
+        
+        # Validar resolução com OpenCV
+        img = cv2.imread(caminho_antigo)
+        altura, largura, _ = img.shape
+        
+        if largura < 2000 or altura < 2000:
+            print(f"⚠️ Aviso: A imagem {arquivo} pode estar abaixo de 300 DPI ({largura}x{altura}px).")
+        
+        extensao = os.path.splitext(arquivo)[1].lower()
+        novo_nome = f"{nova_tag}{extensao}"
+        os.rename(caminho_antigo, os.path.join(pasta_origem, novo_nome))
+        print(f"✅ {arquivo} -> {novo_nome} | Dimensões: {largura}x{altura}px")
+
+if __name__ == "__main__":
+    # Simulação da pasta de entrada (scans brutos do scanner)
+    tags_fisicas = ["INQ-2026-0001", "INQ-2026-0002"]
+    verificar_e_renomear_lote("./scans_temporarios", tags_fisicas)
+
+```
+## Passo 5: Configuração Inicial do Ficheiro .env
+Como boa prática de segurança, crie um ficheiro chamado .env na raiz do projeto para isolar caminhos e chaves privadas:
+```env
+GOOGLE_API_KEY=AIzaSyA1B2C3D4_SUA_CHAVE_GEMINI_REAL_AQUI...
+PASTA_PRODUCAO_IMAGENS="./docs_digitalizados_validos"
+CAMINHO_EXCEL_OUTPUT="./respostas_consolidadas.xlsx"
+
+```
+Valide o ficheiro .env criando e executando o script de teste teste_env.py:
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+gemini_key = os.getenv("GOOGLE_API_KEY")
+
+if gemini_key and not gemini_key.startswith("AIzaSyA1B2C3D4"):
+    print("✅ Variáveis de ambiente e GOOGLE_API_KEY carregadas com sucesso!")
+else:
+    print("❌ Erro: Verifique se o seu ficheiro .env possui a GOOGLE_API_KEY válida.")
+```

@@ -1,0 +1,131 @@
+---
+sidebar_position: 7
+title: 4.2 Pipeline com Langchain
+---
+
+## 2. Guia Prático - Fase 2 (Pipeline com LangChain & Gemini)
+Este tutorial orienta os estagiários na migração ou construção do pipeline utilizando o ecossistema LangChain e a infraestrutura do Google Gemini.
+### 📦 Passo 1: Instalação das Dependências do Gemini e LangChain
+Os estagiários devem ativar o ambiente virtual criado na Fase 1 e instalar os pacotes específicos do LangChain para o ecossistema Google:
+```bash
+pip install langchain-core langchain-google-genai pydantic
+
+```
+### 🔑 Passo 2: Atualização do Ficheiro .env
+O provedor da Google no LangChain procura automaticamente pela variável de ambiente GOOGLE_API_KEY. Os alunos devem adicionar a chave gerada no Google AI Studio ao ficheiro .env:
+```env
+# Adicionar ao ficheiro .env existente:
+GOOGLE_API_KEY=AIzaSyA1B2C3D4..._SUA_CHAVE_GEMINI_AQUI
+
+```
+### 🛠️ Passo 3: O Pipeline de Extração com LangChain (Tarefa 2.1 e 2.2)
+Crie um ficheiro chamado pipeline_langchain_gemini.py. Este script define o esquema de dados, inicializa o modelo Gemini, aplica a estrutura estrita de output e executa a cadeia de extração.
+```python
+import os
+from dotenv import load_model, load_dotenv
+from pydantic import BaseModel, Field
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+
+# 1. Carregar as variáveis de ambiente (.env)
+load_dotenv()
+
+# 2. Definir a estrutura do Output Desejado usando Pydantic
+class InqueritoEstruturado(BaseModel):
+    id_inquerito: str = Field(description="O identificador único extraído do nome do arquivo, ex: INQ-2026-0001.")
+    nome_respondente: str = Field(description="Nome completo do respondente normalizado. Se ilegível, usar 'Não identificado'.")
+    idade: int = Field(description="Idade do respondente em anos inteiros. Se não informada, usar -1.")
+    satisfacao_geral: str = Field(description="Grau de satisfação. Classificar restritamente como: 'Satisfeito', 'Neutro' ou 'Insatisfeito'.")
+    comentarios_adicionais: str = Field(description="Transcrição corrigida, limpa e sem gírias dos comentários manuscritas.")
+    confianca_extracao: float = Field(description="Nota de 0.0 a 1.0 sobre a legibilidade estimada da caligrafia.")
+
+def processar_inquerito_com_gemini(caminho_imagem, texto_bruto_ocr):
+    """
+    Utiliza o LangChain e o Google Gemini para transformar o texto ruidoso do OCR
+    num objeto Pydantic estruturado, indexado pelo ID do arquivo.
+    """
+    # Extrair a Tag do inquérito a partir do nome do arquivo
+    nome_arquivo = os.path.basename(caminho_imagem)
+    tag_id = os.path.splitext(nome_arquivo)[0]
+    
+    print(f"🦜🔗 [LangChain] Processando Tag: {tag_id} via Gemini...")
+    
+    # 3. Inicializar o Modelo Gemini através do LangChain
+    # Usamos o 'gemini-2.5-flash' por ser rápido, extremamente barato e excelente a seguir instruções
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash",
+        temperature=0.1,  # Baixa temperatura para evitar alucinações
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
+    )
+    
+    # 4. Vincular o esquema Pydantic ao LLM para forçar o Structured Output
+    llm_estruturado = llm.with_structured_output(InqueritoEstruturado)
+    
+    # 5. Definir o template de Prompt usando as convenções do LangChain
+    prompt_template = ChatPromptTemplate.from_messages([
+        (
+            "system",
+            "Tu és um sistema automatizado de inteligência artificial especializado em higienização de dados. "
+            "O teu objetivo é analisar o texto imperfeito vindo de um scanner de OCR (escrita manual), "
+            "corrigir os erros ortográficos e estruturar as respostas no formato JSON solicitado. "
+            "Não inventes informações que não estejam implicitamente no texto."
+        ),
+        (
+            "user",
+            "ID do Documento Fisico: {id_documento}\n"
+            "Texto Bruto Capturado:\n"
+            "------------------------\n"
+            "{texto_ocr}\n"
+            "------------------------"
+        )
+    ])
+    
+    # 6. Criar a Chain (Corrente) conectando o Prompt ao LLM Estruturado
+    chain = prompt_template | llm_estruturado
+    
+    try:
+        # Executar a cadeia passando as variáveis do prompt
+        resultado = chain.invoke({
+            "id_documento": tag_id,
+            "texto_ocr": texto_bruto_ocr
+        })
+        return resultado
+        
+    except Exception as e:
+        print(f"❌ Erro na execução da Chain do LangChain para o arquivo {nome_arquivo}: {e}")
+        return None
+
+if __name__ == "__main__":
+    # --- Cenário de Teste Prático para os Estagiários ---
+    caminho_arquivo_teste = "./docs_digitalizados_validos/INQ-2026-0002.png"
+    
+    # Simulação de um texto cursivo mal interpretado pelo OCR
+    texto_ruidoso_ocr = """
+    Pesqisqa de Satisfasao do Client
+    Identificacao: Marla das Dores Souzap
+    Idade: axo q tem 45 anos
+    Nota dada: nao gostei de nada, axei pessimo o serviso, entao dou nota zero (Insastifeita)
+    Observasoes: O atendente me deixou faland0 sosinha na recepcao. Ninguém me decolveu
+    a resposta do requerimento q dei entrada mes passado. Um djsurdo!!
+    """
+    
+    # Execução do pipeline LangChain + Gemini
+    dados_finais = processar_inquerito_com_gemini(caminho_arquivo_teste, texto_ruidoso_ocr)
+    
+    if dados_finais:
+        print("\n✨ Dados Estruturados com Sucesso pelo Gemini (via LangChain):")
+        # O LangChain devolve diretamente uma instância da classe Pydantic
+        print(dados_finais.model_dump_json(indent=2))
+        
+        # Teste de acesso direto aos atributos tipados
+        print("\n--- Validação de Tipos ---")
+        print(f"Chave Primária Formatada: {dados_finais.id_inquerito}")
+        print(f"Idade Convertida para Inteiro: {dados_finais.idade} (Tipo: {type(dados_finais.idade).__name__})")
+        print(f"Comentário Corrigido: {dados_finais.comentarios_adicionais}")
+
+```
+### 🎯 Benefícios de usar esta abordagem com os Alunos:
+ 1. **Tipagem Estrita:** O método .with_structured_output() sob o ecossistema LangChain minimiza erros em que o modelo tenta devolver textos como *"Aqui está o seu JSON:"*. Ele devolve o objeto Pydantic limpo ou falha imediatamente.
+ 2. **Abstração do Modelo:** Se no futuro a coordenação decidir trocar o Gemini pelo GPT da OpenAI ou por um modelo local (como o Llama via Ollama), os estagiários apenas precisarão de alterar a linha de inicialização do llm, mantendo todo o resto do pipeline (prompt_template, chain e Pydantic) exatamente igual.

@@ -1,0 +1,192 @@
+---
+sidebar_position: 8
+title: 4.3 Auditoria
+---
+
+## 3. Guia Prático - Fase 3 (Persistência em Excel e Interface de Validação)
+Este tutorial orienta os alunos na finalização do ciclo de dados: salvar os dados estruturados de forma organizada no Excel e criar uma aplicação visual para que os estagiários auditem os resultados de baixa confiança.
+### 📦 Passo 1: Instalação das Dependências da Fase 3
+Para além das bibliotecas anteriores, precisamos do **Streamlit** para construir a interface de utilizador em poucos minutos. Ativem o ambiente virtual e executem:
+```bash
+pip install streamlit openpyxl pandas
+
+```
+### 📊 Passo 2: Salvando Dados no Excel de Forma Incremental (Tarefa 2.3 / 3.3)
+Os alunos devem criar um módulo responsável por ler o objeto Pydantic do Gemini e inseri-lo como uma nova linha no Excel. Se o ficheiro Excel não existir, o script cria-o com os cabeçalhos corretos.
+Crie um ficheiro chamado gerenciador_excel.py:
+```python
+import os
+from openpyxl import load_workbook, Workbook
+
+def salvar_no_excel(dados_inquerito, caminho_excel="respostas_consolidadas.xlsx"):
+    """
+    Guarda os dados do objeto Pydantic no Excel. 
+    Garante que o ID do Inquérito seja a primeira coluna (Chave Primária).
+    """
+    # Converter o objeto Pydantic num dicionário Python
+    dados_dict = dados_inquerito.model_dump()
+    
+    # Definir a ordem estrita das colunas (A Tag/ID deve ser a primeira)
+    cabecalhos = [
+        "id_inquerito", 
+        "nome_respondente", 
+        "idade", 
+        "satisfacao_geral", 
+        "comentarios_adicionais", 
+        "confianca_extracao"
+    ]
+    
+    # Se o arquivo não existir, cria um novo com cabeçalhos
+    if not os.path.exists(caminho_excel):
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Inquéritos Processados"
+        ws.append(cabecalhos)
+        wb.save(caminho_excel)
+        print(f"📁 Novo arquivo Excel criado: {caminho_excel}")
+
+    # Carregar o arquivo existente
+    wb = load_workbook(caminho_excel)
+    ws = wb.active
+    
+    # Validar se o ID já foi processado anteriormente (evitar duplicados)
+    for row in ws.iter_rows(min_row=2, max_col=1, values_only=True):
+        if row[0] == dados_dict["id_inquerito"]:
+            print(f"⚠️ Aviso: O ID {dados_dict['id_inquerito']} já existe no Excel. Ignorando para evitar duplicados.")
+            wb.close()
+            return False
+
+    # Preparar a linha de dados conforme a ordem dos cabeçalhos
+    linha_dados = [dados_dict[coluna] for coluna in cabecalhos]
+    
+    # Anexar a linha no fim da tabela
+    ws.append(linha_dados)
+    wb.save(caminho_excel)
+    wb.close()
+    print(f"✅ Dados da Tag {dados_dict['id_inquerito']} gravados com sucesso no Excel!")
+    return True
+
+# Bloco para os estagiários testarem o isolamento do script
+if __name__ == "__main__":
+    # Mock/Simulação do objeto que viria do Gemini na Fase 2
+    from pydantic import BaseModel
+
+    class InqueritoMock(BaseModel):
+        id_inquerito: str
+        nome_respondente: str
+        idade: int
+        satisfacao_geral: str
+        comentarios_adicionais: str
+        confianca_extracao: float
+
+    teste_mock = InqueritoMock(
+        id_inquerito="INQ-2026-0001",
+        nome_respondente="Carlos Manuel",
+        idade=34,
+        satisfacao_geral="Neutro",
+        comentarios_adicionais="O atendimento demorou um bocado.",
+        confianca_extracao=0.92
+    )
+    
+    salvar_no_excel(teste_mock)
+
+```
+### 🖥️ Passo 3: Interface de Auditoria e Validação Humana (Tarefa 3.2)
+Nem sempre o Gemini terá 100% de certeza (caligrafias muito ilegíveis podem gerar notas de confiança baixas, ex: < 0.70). Para cumprir a **US5**, os estagiários vão usar o **Streamlit** para listar os casos críticos e permitir a correção manual rápida.
+Crie um ficheiro chamado app_auditoria.py:
+```python
+import streamlit as st
+import pandas as pd
+from openpyxl import load_workbook
+import os
+
+st.set_page_config(page_title="Painel de Auditoria de Inquéritos", layout="wide")
+
+st.title("🔍 Painel de Controle de Qualidade (OCR + Gemini)")
+st.subheader("Fase 3: Validação Humana de Casos de Baixa Confiança")
+
+CAMINHO_EXCEL = "respostas_consolidadas.xlsx"
+
+# 1. Verificar se a base de dados em Excel existe
+if not os.path.exists(CAMINHO_EXCEL):
+    st.info("Aguardando o processamento do primeiro lote de inquéritos. Arquivo Excel não encontrado.")
+else:
+    # Ler a tabela para o Pandas
+    df = pd.read_excel(CAMINHO_EXCEL)
+    
+    # 2. Métrica de Alerta: Filtrar registros com confiança abaixo de 75%
+    limiar_alerta = 0.75
+    casos_criticos = df[df["confianca_extracao"] < limiar_alerta]
+    
+    col1, col2 = st.columns(2)
+    col1.metric(label="Total de Inquéritos no Excel", value=len(df))
+    col2.metric(label="Casos para Revisão (Confiança < 75%)", value=len(casos_criticos), delta_color="inverse")
+
+    st.markdown("---")
+    
+    if len(casos_criticos) == 0:
+        st.success("🎉 Excelente! Todos os inquéritos foram processados com alta confiança pelo Gemini.")
+    else:
+        st.warning("Abaixo estão listados os inquéritos que precisam de dupla verificação humana:")
+        
+        # Selecionar qual ID crítico o estagiário deseja auditar
+        id_selecionado = st.selectbox("Escolha a Tag/ID do Inquérito para auditar:", casos_criticos["id_inquerito"].unique())
+        
+        # Obter a linha atual do registro selecionado
+        linha_atual = df[df["id_inquerito"] == id_selecionado].iloc[0]
+        
+        st.markdown(f"### Editando Registro: **{id_selecionado}**")
+        
+        # Criar formulário para edição corretiva
+        with st.form("formulario_correcao"):
+            c1, c2 = st.columns([3, 1])
+            novo_nome = c1.text_input("Nome do Respondente", value=linha_atual["nome_respondente"])
+            nova_idade = c2.number_input("Idade", value=int(linha_atual["idade"]), step=1)
+            
+            nova_satisfacao = st.selectbox(
+                "Satisfação Geral", 
+                ["Satisfeito", "Neutro", "Insatisfeito"], 
+                index=["Satisfeito", "Neutro", "Insatisfeito"].index(linha_atual["satisfacao_geral"])
+            )
+            
+            novos_comentarios = st.text_area("Comentários Transcritos", value=linha_atual["comentarios_adicionais"])
+            
+            # Botão de submissão do formulário
+            botao_salvar = st.form_submit_input("Confirmar e Salvar Alterações no Excel")
+            
+            if botao_salvar:
+                # Rotina openpyxl para sobrescrever a linha exata no Excel
+                wb = load_workbook(CAMINHO_EXCEL)
+                ws = wb.active
+                
+                for row in ws.iter_rows(min_row=2):
+                    if row[0].value == id_selecionado:
+                        # Sobrescreve os valores das colunas com o input aprovado pelo estagiário
+                        row[1].value = novo_nome
+                        row[2].value = nova_idade
+                        row[3].value = nova_satisfacao
+                        row[4].value = novos_comentarios
+                        row[5].value = 1.0  # Sobe a confiança para 1.0 pois foi validado por um humano
+                        break
+                        
+                wb.save(CAMINHO_EXCEL)
+                wb.close()
+                st.success(f"💾 Alterações salvas com sucesso para o documento {id_selecionado}! Recarregue a página.")
+
+        # Dica visual para o estagiário localizar o papel físico
+        st.info(f"💡 **Dica de Arquivo:** Para validar este caso, procure na pasta física pelo inquérito com o autocolante número **{id_selecionado}**.")
+
+```
+#### Para executar a Interface de Auditoria:
+Os estagiários devem rodar o comando especial do Streamlit no terminal:
+```bash
+streamlit run app_auditoria.py
+
+```
+O Streamlit abrirá automaticamente uma aba no navegador web (geralmente em http://localhost:8501) exibindo o painel de forma interativa.
+### 🏁 Conclusão do Pipeline (Visão do Todo)
+Ao final desta Tarefa 3, os estagiários terão competência para:
+ 1. Ler o documento físico identificando-o pelo autocolante.
+ 2. Passar a imagem para o pipeline onde o LangChain aciona o **Gemini** para limpar o ruído do manuscrito cursivo.
+ 3. Gravar o resultado de forma estruturada e indexada no Excel.
+ 4. Auditar interfaces visuais para garantir que erros de caligrafia humana nunca corrompam a base de dados final entregue à coordenação.

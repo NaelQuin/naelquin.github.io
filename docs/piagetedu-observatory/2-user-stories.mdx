@@ -1,0 +1,30 @@
+---
+sidebar_position: 2
+title: 2. User Stories
+---
+
+As *User Stories* abaixo mapeiam o valor de negócio e os requisitos que o sistema automatizado deve cumprir:
+
+### US1: Digitalização Padronizada e Rastreável
+* **Como** coordenador do projeto,  
+* **quero** que os inquéritos físicos recebam uma etiqueta com um identificador único (autocolante) antes de serem digitalizados com resolução padronizada,  
+* **para que** seja possível rastrear a origem de qualquer dado e localizar o documento físico rapidamente se houver dúvidas.
+
+### US2: Extração de Texto (OCR)
+* **Como** desenvolvedor do pipeline,  
+* **quero** segmentar e extrair o texto das imagens dos inquéritos,  
+* **para que** possamos isolar as respostas manuscritas antes de enviá-las ao modelo de linguagem.
+
+### US3: Estruturação de Dados com LLM
+* **Como** analista de dados,  
+* **quero** que um LLM processe o texto bruto extraído e corrija falhas de OCR, mapeando cada resposta para uma chave/pergunta específica em formato JSON estruturado.
+
+### US4: Armazenamento em Excel
+* **Como** utilizador final da base de dados,  
+* **quero** que os dados estruturados sejam guardados automaticamente numa folha de Excel (`.xlsx`),  
+* **para que** eu possa realizar análises estatísticas diretamente.
+
+### US5: Interface de Validação/Auditoria
+* **Como** estagiário responsável pela qualidade,  
+* **quero** um mecanismo simples para comparar os casos de baixa confiança do LLM com a imagem original,  
+* **para que** eu possa corrigir divergências manualmente.
